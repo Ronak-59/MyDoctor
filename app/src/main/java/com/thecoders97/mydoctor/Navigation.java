@@ -2,8 +2,10 @@ package com.thecoders97.mydoctor;
 
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.clover_studio.spikachatmodule.ChatActivity;
+import com.clover_studio.spikachatmodule.models.Config;
+import com.clover_studio.spikachatmodule.models.User;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,10 +43,25 @@ public class Navigation extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Hello! Medicine Le li?", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+
+                    if(view.getId()==R.id.fab){
+                        User user = new User();
+                        user.roomID = "01";
+                        user.userID = "xyz";
+                        user.name = "Abc";
+                        Config config = new Config();
+                        config.apiBaseUrl = "http://ossdemo.spika.chat/spika/v1/";
+                        config.socketUrl = "http://ossdemo.spika.chat/spika";
+                        ChatActivity.startChatActivityWithConfig(Navigation.this, user,config);
+
+                    }
+
+                }
+            });
+
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

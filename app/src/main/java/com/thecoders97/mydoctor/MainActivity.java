@@ -63,11 +63,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Hello Buddhe ! Medicine liya?", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
+                    if(view.getId()==R.id.fab){
+                        AuthUI.getInstance()
+                                .signOut(MainActivity.this)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Log.d("AUTH", "USER LOGGED OUT");
+                                        finish();
+                                    }
+                                });
+
+                    }
+                }
+
+
+        });
 
     }
 
@@ -103,9 +115,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
                 return;
             }
-            else{
+            else if (resultCode == RESULT_CANCELED){
                 //User not Authenticated
                 Log.d("AUTH", "NOT AUTHENTICATED");
+                finish();
             }
         }
     }
@@ -113,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.log_out_button){
+        if(view.getId()==R.id.fab){
             AuthUI.getInstance()
                     .signOut(this)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
